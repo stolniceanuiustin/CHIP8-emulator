@@ -1,0 +1,9 @@
+{
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "/home/iustin/Projects/CHIP8",
+            "binaryPath": "/home/iustin/Projects/CHIP8/chip8",
+            "binaryArgs": []
+        }
+    ]
+}
