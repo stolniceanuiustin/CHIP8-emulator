@@ -9,7 +9,8 @@
     "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
         "clang-diagnostic-error",
         "clang-diagnostic-error",
-        "cppcoreguidelines-avoid-magic-numbers"
+        "cppcoreguidelines-avoid-magic-numbers",
+        "cppcoreguidelines-narrowing-conversions"
     ],
     "files.associations": {
         "stdint.h": "c",
