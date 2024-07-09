@@ -5,5 +5,14 @@
             "binaryPath": "/home/iustin/Projects/CHIP8/chip8",
             "binaryArgs": []
         }
-    ]
+    ],
+    "C_Cpp.codeAnalysis.clangTidy.checks.disabled": [
+        "clang-diagnostic-error",
+        "clang-diagnostic-error",
+        "cppcoreguidelines-avoid-magic-numbers"
+    ],
+    "files.associations": {
+        "stdint.h": "c",
+        "stdbool.h": "c"
+    }
 }
