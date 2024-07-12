@@ -15,6 +15,8 @@ typedef struct
     int fg_color; // foregroud 0xRRGGBBAA
     int bg_color; // background 0xRRGGBBAA
     uint32_t scale_factor;
+    uint32_t instructions_per_second; // CHIP8 CPU instructions per seconds
+    uint32_t current_extension; //0 = CHIP8
 } config_t;
 
 typedef enum
