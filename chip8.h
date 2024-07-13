@@ -53,6 +53,7 @@ typedef struct
     bool keypad[16];       // Hexadecimal keypad 0x0-0xF;
     char *rom_name;        // Currently running ROM
     instruction_t inst;
+    bool draw;
 } chip8_t;
 
 #endif

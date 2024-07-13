@@ -47,7 +47,7 @@ bool set_config_from_args(config_t *config, int argc, char **argv)
     config->fg_color = 0xFFFFFFFF;
     config->bg_color = 0x000000FF;
     config->scale_factor = 20;             // 1280x640
-    config->instructions_per_second = 500; // standard speed
+    config->instructions_per_second = 600; // standard speed
     config->current_extension = 0;         // CHIP8
     // override default from args
     for (int i = 1; i < argc; i++)
@@ -128,140 +128,76 @@ void handle_input(chip8_t *chip8)
         case SDL_QUIT:
             chip8->state = QUIT;
             return;
-
         case SDL_KEYDOWN:
-            switch (event.key.keysym.sym)
-            {
-            case SDLK_ESCAPE:
-                // Escape key. exit window
-                chip8->state = QUIT;
-                return;
+                switch (event.key.keysym.sym) {
+                    case SDLK_ESCAPE:
+                        // Escape key; Exit window & End program
+                        chip8->state = QUIT;
+                        break;
+                        
+                    case SDLK_SPACE:
+                        // Space bar
+                        if (chip8->state == RUNNING) {
+                            chip8->state = PAUSED;  // Pause
+                            puts("==== PAUSED ====");
+                        } else {
+                            chip8->state = RUNNING; // Resume
+                        }
+                        break;
 
-            case SDLK_SPACE:
-                if (chip8->state == RUNNING) // Pause
-                    chip8->state = PAUSED;
-                else
-                {
-                    chip8->state = RUNNING; // Resume
-                    puts("==== PAUSED ====");
+                    // Map qwerty keys to CHIP8 keypad
+                    case SDLK_1: chip8->keypad[0x1] = true; break;
+                    case SDLK_2: chip8->keypad[0x2] = true; break;
+                    case SDLK_3: chip8->keypad[0x3] = true; break;
+                    case SDLK_4: chip8->keypad[0xC] = true; break;
+
+                    case SDLK_q: chip8->keypad[0x4] = true; break;
+                    case SDLK_w: chip8->keypad[0x5] = true; break;
+                    case SDLK_e: chip8->keypad[0x6] = true; break;
+                    case SDLK_r: chip8->keypad[0xD] = true; break;
+
+                    case SDLK_a: chip8->keypad[0x7] = true; break;
+                    case SDLK_s: chip8->keypad[0x8] = true; break;
+                    case SDLK_d: chip8->keypad[0x9] = true; break;
+                    case SDLK_f: chip8->keypad[0xE] = true; break;
+
+                    case SDLK_z: chip8->keypad[0xA] = true; break;
+                    case SDLK_x: chip8->keypad[0x0] = true; break;
+                    case SDLK_c: chip8->keypad[0xB] = true; break;
+                    case SDLK_v: chip8->keypad[0xF] = true; break;
+
+                    default: break;
+                        
                 }
-                return;
+                break; 
 
-            case SDLK_1:
-                chip8->keypad[0x1] = true;
-                break;
-            case SDLK_2:
-                chip8->keypad[0x2] = true;
-                break;
-            case SDLK_3:
-                chip8->keypad[0x3] = true;
-                break;
-            case SDLK_4:
-                chip8->keypad[0xC] = true;
-                break;
+       case SDL_KEYUP:
+                switch (event.key.keysym.sym) {
+                    // Map qwerty keys to CHIP8 keypad
+                    case SDLK_1: chip8->keypad[0x1] = false; break;
+                    case SDLK_2: chip8->keypad[0x2] = false; break;
+                    case SDLK_3: chip8->keypad[0x3] = false; break;
+                    case SDLK_4: chip8->keypad[0xC] = false; break;
 
-            case SDLK_q:
-                chip8->keypad[0x4] = true;
-                break;
-            case SDLK_w:
-                chip8->keypad[0x5] = true;
-                break;
-            case SDLK_e:
-                chip8->keypad[0x6] = true;
-                break;
-            case SDLK_r:
-                chip8->keypad[0xD] = true;
-                break;
+                    case SDLK_q: chip8->keypad[0x4] = false; break;
+                    case SDLK_w: chip8->keypad[0x5] = false; break;
+                    case SDLK_e: chip8->keypad[0x6] = false; break;
+                    case SDLK_r: chip8->keypad[0xD] = false; break;
 
-            case SDLK_a:
-                chip8->keypad[0x7] = true;
-                break;
-            case SDLK_s:
-                chip8->keypad[0x8] = true;
-                break;
-            case SDLK_d:
-                chip8->keypad[0x9] = true;
-                break;
-            case SDLK_f:
-                chip8->keypad[0xE] = true;
+                    case SDLK_a: chip8->keypad[0x7] = false; break;
+                    case SDLK_s: chip8->keypad[0x8] = false; break;
+                    case SDLK_d: chip8->keypad[0x9] = false; break;
+                    case SDLK_f: chip8->keypad[0xE] = false; break;
+
+                    case SDLK_z: chip8->keypad[0xA] = false; break;
+                    case SDLK_x: chip8->keypad[0x0] = false; break;
+                    case SDLK_c: chip8->keypad[0xB] = false; break;
+                    case SDLK_v: chip8->keypad[0xF] = false; break;
+
+                    default: break;
+                }
                 break;
 
-            case SDLK_z:
-                chip8->keypad[0xA] = true;
-                break;
-            case SDLK_x:
-                chip8->keypad[0x0] = true;
-                break;
-            case SDLK_c:
-                chip8->keypad[0xB] = true;
-                break;
-            case SDLK_v:
-                chip8->keypad[0xF] = true;
-                break;
-
-            default:
-                break;
-            }
-            break;
-
-        case SDL_KEYUP:
-            switch (event.key.keysym.sym)
-            {
-            case SDLK_1:
-                chip8->keypad[0x1] = false;
-                break;
-            case SDLK_2:
-                chip8->keypad[0x2] = false;
-                break;
-            case SDLK_3:
-                chip8->keypad[0x3] = false;
-                break;
-            case SDLK_4:
-                chip8->keypad[0xC] = false;
-                break;
-
-            case SDLK_q:
-                chip8->keypad[0x4] = false;
-                break;
-            case SDLK_w:
-                chip8->keypad[0x5] = false;
-                break;
-            case SDLK_e:
-                chip8->keypad[0x6] = false;
-                break;
-            case SDLK_r:
-                chip8->keypad[0xD] = false;
-                break;
-
-            case SDLK_a:
-                chip8->keypad[0x7] = false;
-                break;
-            case SDLK_s:
-                chip8->keypad[0x8] = false;
-                break;
-            case SDLK_d:
-                chip8->keypad[0x9] = false;
-                break;
-            case SDLK_f:
-                chip8->keypad[0xE] = false;
-                break;
-
-            case SDLK_z:
-                chip8->keypad[0xA] = false;
-                break;
-            case SDLK_x:
-                chip8->keypad[0x0] = false;
-                break;
-            case SDLK_c:
-                chip8->keypad[0xB] = false;
-                break;
-            case SDLK_v:
-                chip8->keypad[0xF] = false;
-                break;
-            default:
-                break;
-            }
-            break;
         }
     }
 }
@@ -356,9 +292,8 @@ void print_debug_info(chip8_t *chip8)
         printf("Jump to adress %04X\n", chip8->inst.NNN);
         // chip8->PC = chip8->inst.NNN;
         break;
-    case 0x02:                           // Calls subroutine at NNN
-        *chip8->stack_ptr++ = chip8->PC; // Push return adress
-        chip8->PC = chip8->inst.NNN;     // Change program counter
+    case 0x02: // Calls subroutine at NNN
+        printf("Calls subroutine at NNN(0x%04X)", chip8->inst.NNN);
         break;
     case 0x03:
         // 3XNN -> skips the next instruction if VX = NN
@@ -550,10 +485,11 @@ void emulate_instruction(chip8_t *chip8, config_t config)
     // Emulate opcode
     switch ((chip8->inst.opcode >> 12) & 0x0F) // First 4 bits of the opcode
     {
-    case 0x0:
+    case 0x00:
         if (chip8->inst.opcode == 0x00E0) // Clear screen
         {
             memset(&chip8->display[0], 0, 64 * 32);
+            chip8->draw = true;
         }
         else if (chip8->inst.opcode == 0x00EE) // Return from subroutine
         {
@@ -611,7 +547,7 @@ void emulate_instruction(chip8_t *chip8, config_t config)
     case 0x08: // Operatii aritmetice
         uint8_t X = chip8->inst.X;
         uint8_t Y = chip8->inst.Y;
-        uint8_t carry = 0;
+        uint16_t carry = 0;
         switch (chip8->inst.N)
         {
         case 0:
@@ -619,24 +555,28 @@ void emulate_instruction(chip8_t *chip8, config_t config)
             break;
 
         case 1:
-            chip8->V[X] = chip8->V[X] | chip8->V[Y];
+            chip8->V[X] |= chip8->V[Y];
+            if (config.current_extension == 0)
+                chip8->V[0xF] = 0;
             break;
 
         case 2:
-            chip8->V[X] = chip8->V[X] & chip8->V[Y];
+            chip8->V[X] &= chip8->V[Y];
+            if (config.current_extension == 0)
+                chip8->V[0xF] = 0;
             break;
 
         case 3:
-            chip8->V[X] = chip8->V[X] ^ chip8->V[Y];
+            chip8->V[X] ^= chip8->V[Y];
+            if (config.current_extension == 0)
+                chip8->V[0xF] = 0;
             break;
 
         case 4:
             chip8->V[X] = chip8->V[X] + chip8->V[Y];
-            uint16_t overflow_check = (uint16_t)(chip8->V[X] + chip8->V[Y]);
-            if (overflow_check > 255)
-                chip8->V[0xF] = 1;
-            else
-                chip8->V[0xF] = 0;
+            carry = ((uint16_t)(chip8->V[chip8->inst.X] + chip8->V[chip8->inst.Y]) > 255);
+            chip8->V[X] += chip8->V[Y];
+            chip8->V[0xF] = carry;
             break;
 
         case 5:
@@ -647,23 +587,37 @@ void emulate_instruction(chip8_t *chip8, config_t config)
             chip8->V[X] = chip8->V[X] - chip8->V[Y];
             break;
         case 6:
-            carry = chip8->V[X] & 1;
-            chip8->V[X] >>= 1;
-            chip8->V[0x0F] = carry;
-            break;
+            if (config.current_extension == 0)
+            {
+                carry = chip8->V[chip8->inst.Y] & 1;                    // Use VY
+                chip8->V[chip8->inst.X] = chip8->V[chip8->inst.Y] >> 1; // Set VX = VY result
+            }
+            else
+            {
+                carry = chip8->V[chip8->inst.X] & 1; // Use VX
+                chip8->V[chip8->inst.X] >>= 1;       // Use VX
+            }
 
+            chip8->V[0xF] = carry;
+            break;
         case 7:
             chip8->V[X] = chip8->V[Y] - chip8->V[X];
-            if (chip8->V[Y] >= chip8->V[X])
-                chip8->V[0x0F] = 1;
-            else
-                chip8->V[0x0F] = 0;
+            carry = (chip8->V[chip8->inst.X] <= chip8->V[chip8->inst.Y]);
+            chip8->V[0xF] = carry;
             break;
 
         case 0x0E:
-            carry = (chip8->V[X] & 128) >> 7;
-            chip8->V[X] <<= 1;
-            chip8->V[0x0F] = carry;
+            if (config.current_extension == 0)
+            {
+                carry = (chip8->V[Y] & 0x80) >> 7;
+                chip8->V[X] = chip8->V[Y] << 1;
+            }
+            else
+            {
+                carry = (chip8->V[X] & 0x80) >> 7;
+                chip8->V[X] <<= 1;
+            }
+            chip8->V[0xF] = carry;
             break;
 
         default:
@@ -688,40 +642,47 @@ void emulate_instruction(chip8_t *chip8, config_t config)
 
     case 0x0C:
         // 0xCXNN = VX = rand() % 256 & NN
-        chip8->V[chip8->inst.X] = rand() % 256 & chip8->inst.NN;
+        chip8->V[chip8->inst.X] = (rand() % 256) & chip8->inst.NN;
         break;
-    case 0x0D:
-        // 0xDXYN: draw N height sprite at coords V[X], V[Y]
-        // Read from memory location I.
-        // VF is set to 1 if any screen pixels are flipped from set to unset when the sprite is drawn, and to 0 if that does not happen
-        uint8_t X_coord = chip8->V[chip8->inst.X] % config.window_width;
-        uint8_t Y_coord = chip8->V[chip8->inst.Y] % config.window_height;
-        const uint8_t orig_X = X_coord;
-        // const uint8_t orig_Y = Y_coord;
-        chip8->V[0xF] = 0; // Initialise carry flag to 0
+    case 0x0D: {
+            // 0xDXYN: Draw N-height sprite at coords X,Y; Read from memory location I;
+            //   Screen pixels are XOR'd with sprite bits, 
+            //   VF (Carry flag) is set if any screen pixels are set off; This is useful
+            //   for collision detection or other reasons.
+            uint8_t X_coord = chip8->V[chip8->inst.X] % config.window_width;
+            uint8_t Y_coord = chip8->V[chip8->inst.Y] % config.window_height;
+            const uint8_t orig_X = X_coord; // Original X value
 
-        // Loop over all the rows
-        for (int8_t i = 0; i < chip8->inst.N; i++)
-        {
-            X_coord = orig_X;
-            uint8_t sprite_data = chip8->ram[chip8->I + i];
-            for (int8_t j = 7; j >= 0; j--)
-            {
-                bool *pixel = &chip8->display[Y_coord * config.window_width + X_coord];
-                if (sprite_data & (1 << j) && (*pixel)) // if pixel is on we switch it
-                    chip8->V[0xF] = 1;                  // Switched a pixel so we set the carry flag
+            chip8->V[0xF] = 0;  // Initialize carry flag to 0
 
-                // Xor display pixel with sprite
-                (*pixel) ^= (sprite_data & (1 << j));
+            // Loop over all N rows of the sprite
+            for (uint8_t i = 0; i < chip8->inst.N; i++) {
+                // Get next byte/row of sprite data
+                const uint8_t sprite_data = chip8->ram[chip8->I + i];
+                X_coord = orig_X;   // Reset X for next row to draw
 
-                // Stop drawing when hitting right edge of screen
-                if (++X_coord >= config.window_width)
-                    break;
+                for (int8_t j = 7; j >= 0; j--) {
+                    // If sprite pixel/bit is on and display pixel is on, set carry flag
+                    bool *pixel = &chip8->display[Y_coord * config.window_width + X_coord]; 
+                    const bool sprite_bit = (sprite_data & (1 << j));
+
+                    if (sprite_bit && *pixel) {
+                        chip8->V[0xF] = 1;  
+                    }
+
+                    // XOR display pixel with sprite pixel/bit to set it on or off
+                    *pixel ^= sprite_bit;
+
+                    // Stop drawing this row if hit right edge of screen
+                    if (++X_coord >= config.window_width) break;
+                }
+
+                // Stop drawing entire sprite if hit bottom edge of screen
+                if (++Y_coord >= config.window_height) break;
             }
-            if (++Y_coord >= config.window_height)
-                break; // stop drawing entire sprite when hitting bottom edge
+            chip8->draw = true;
+            break;
         }
-        break;
     case 0x0E: // input handling
         if (chip8->inst.NN == 0x9E)
         {
@@ -806,7 +767,6 @@ void emulate_instruction(chip8_t *chip8, config_t config)
         case 0x55:
             // 0xFX55: registry dump from 0 to X, starting from adress I. I is left unmodified
             //  SCHIP increments I, chip8 doesnt increment I
-            // could add something from config
             for (uint8_t i = 0; i <= chip8->inst.X; i++)
             {
                 if (config.current_extension == 0)
@@ -883,23 +843,32 @@ int main(int argc, char **argv)
         if (chip8.state == PAUSED)
             continue;
 
-        // Get_time();
-        uint64_t before_emulating_frame = SDL_GetPerformanceCounter();
+
+        uint32_t start_time = SDL_GetTicks();
+
         // Emulate CHIP8 instructions for this frame (60 hz)
         for (uint32_t i = 0; i < config.instructions_per_second / 60; i++)
             emulate_instruction(&chip8, config);
-        // Get_time() elapsed since last get_time
 
-        uint64_t after_emulating_frame = SDL_GetPerformanceCounter();
+
+        uint32_t end_time = SDL_GetTicks();
 
         // Delay for aprox 60Hz
-        double time_elapsed = (double)((before_emulating_frame - after_emulating_frame) / 1000) / SDL_GetPerformanceCounter();
+        double time_elapsed = (double)(end_time - start_time) / 1000;
+
         if (16.67f > time_elapsed)
-            SDL_Delay(16.67f - time_elapsed);
-        else
-            SDL_Delay(0);
+        {
+            SDL_Delay(16.67f - time_elapsed); 
+        }
+        else{
+            SDL_Delay(0);  
+        }
         // Update window with changes on every iteration
-        update_screen(sdl, config, chip8);
+        if(chip8.draw)
+        {
+            update_screen(sdl, config, chip8);
+            chip8.draw = false;
+        }
         update_timers(&chip8);
     }
     // Final cleanup
