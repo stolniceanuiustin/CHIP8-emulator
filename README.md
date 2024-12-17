@@ -10,10 +10,10 @@ Input:
 CHIP8 uses a 16 hexadecimal keypad for user input.  
 // CHIP8 keypad to querty  
 /*  
-1 2 3 C    1 2 3 4  
-4 5 6 D    Q W E R  
-7 8 9 E    A S D F  
-A 0 B F    Z X C V  
+1 2 3 C      1 2 3 4  
+4 5 6 D      Q W E R  
+7 8 9 E      A S D F  
+A 0 B F      Z X C V  
 */  
 
 Graphics: CHIP-8 supports a 64x32 monochrome display, my emulator uses that and renders pixel-based graphis as per the CHIP-8 Specifications     
