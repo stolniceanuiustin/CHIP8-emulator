@@ -1,38 +1,40 @@
 A CHIP-8 emulator, written in C and SDL2, that may not work correctly.
 Sound is not implemented and there are still some bugs i didn't fix.
 
-__CHIP-8 Emulator__
-This is an emulator, written in C, for the CHIP-8 virtual machine, designed to faithfully replicate the behaviour of the oirginal system, allowing programrs written for it to be runned on any system.
+__CHIP-8 Emulator__  
+This is an emulator, written in C, for the CHIP-8 virtual machine, designed to faithfully replicate the behaviour of the oirginal system, allowing programrs written for it to be runned on any system.  
 
-__Features__
-All 35 instructions of the CHIP-8 arhitecture are implemented.
-Input:
-CHIP8 uses a 16 hexadecimal keypad for user input.
-// CHIP8 keypad to querty
-/*
-1 2 3 C    1 2 3 4
-4 5 6 D    Q W E R
-7 8 9 E    A S D F
-A 0 B F    Z X C V
-*/
+__Features__  
+All 35 instructions of the CHIP-8 arhitecture are implemented.  
+Input:  
+CHIP8 uses a 16 hexadecimal keypad for user input.  
+// CHIP8 keypad to querty  
+/*  
+1 2 3 C    1 2 3 4  
+4 5 6 D    Q W E R  
+7 8 9 E    A S D F  
+A 0 B F    Z X C V  
+*/  
 
-Graphis: CHIP-8 supports a 64x32 monochrome display, my emulator uses that and renders pixel-based graphis as per the CHIP-8 Specifications 
-Timers: implements the CHIP-8 delay and sound timers for accurate execution of programs
-Sound: Still not implemented 
+Graphics: CHIP-8 supports a 64x32 monochrome display, my emulator uses that and renders pixel-based graphis as per the CHIP-8 Specifications     
+Timers: implements the CHIP-8 delay and sound timers for accurate execution of programs  
+Sound: Still not implemented   
 
-__Cross-platform compatibility__
-The emulator is written in C, thus it ensures maximum portability.
 
-__Tehnical details__
-Platform: Cross_platform, tested on Windows and Linux 
-Programming Language: C
-Dependencies: SDL2 for graphics
+__Cross-platform compatibility__   
+The emulator is written in C, thus it ensures maximum portability.  
 
-Future Improvements
 
-__Adding support for the SUPER-CHIP (SCHIP) extensions.__
-__Enhanced debugging tools, such as a step-through debugger.__
-__Improved graphical scaling and fullscreen options.__
+__Tehnical details__  
+Platform: Cross_platform, tested on Windows and Linux   
+Programming Language: C  
+Dependencies: SDL2 for graphics  
+
+
+__Future Improvements__  
+Adding support for the SUPER-CHIP (SCHIP) extensions.  
+Enhanced debugging tools, such as a step-through debugger.  
+Improved graphical scaling and fullscreen options.  
 
 
 __About CHIP-8__
