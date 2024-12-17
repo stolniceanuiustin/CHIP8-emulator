@@ -1,6 +1,3 @@
-A CHIP-8 emulator, written in C and SDL2, that may not work correctly.
-Sound is not implemented and there are still some bugs i didn't fix.
-
 __CHIP-8 Emulator__  
 This is an emulator, written in C, for the CHIP-8 virtual machine, designed to faithfully replicate the behaviour of the oirginal system, allowing programrs written for it to be runned on any system.  
 
