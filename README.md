@@ -36,7 +36,7 @@ Enhanced debugging tools, such as a step-through debugger.
 Improved graphical scaling and fullscreen options.  
 
 
-__About CHIP-8__
+__About CHIP-8__  
 CHIP-8 was originally developed as an interpreted language for early microcomputers like the COSMAC VIP. 
 It is still widely used as a beginner-friendly platform for emulator development and retro gaming enthusiasts.
 
