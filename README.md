@@ -38,11 +38,11 @@ CHIP-8 was originally developed as an interpreted language for early microcomput
 It is still widely used as a beginner-friendly platform for emulator development and retro gaming enthusiasts.
 
 __HOW TO COMPILE__
-For Linux: ensure you have SDL2, GCC and MAKE installed in your environment. 
-You can get them by running these commands: 
-sudo apt-get install libsdl2-dev 
-sudo apt-get install gcc 
-sudo apt-get install make 
-
+For Linux: ensure you have SDL2, GCC and MAKE installed in your environment.   
+You can get them by running these commands:   
+sudo apt-get install libsdl2-dev   
+sudo apt-get install gcc   
+sudo apt-get install make   
+  
 After that, simply go to the folder where the makefile is and write make.
 
